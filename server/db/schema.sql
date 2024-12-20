@@ -1,0 +1,5 @@
+-- DROP DATABASE
+DROP DATABASE IF EXISTS sound_and_scene_db;
+
+-- CREATE DATABASE
+CREATE DATABASE sound_and_scene_db;
