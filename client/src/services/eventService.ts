@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { Event } from '../interfaces/Event';
 
-const BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3001/api/events';
+const BASE_URL = 'http://localhost:3001/api/events';
 
 
 // Fetch events by zipcode from the server-side proxy.
