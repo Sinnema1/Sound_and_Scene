@@ -1,3 +1,6 @@
+import dotenv from "dotenv";
+dotenv.config();
+
 import express from "express";
 import cors from "cors";
 import path from "path";
@@ -17,12 +20,28 @@ const User = UserFactory(sequelize);
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Middleware for parsing JSON and URL-encoded form data
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+// Allow origins from the environment variable or use a default
+const allowedOrigins = process.env.CLIENT_URL?.split(",") || ["http://localhost:5173", "http://localhost:3000"];
 
-// Enable CORS for cross-origin requests
-app.use(cors());
+console.log("CORS allowed origins:", allowedOrigins);
+
+// CORS middleware
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      // Allow requests with no origin (e.g., mobile apps, curl requests)
+      if (!origin) return callback(null, true);
+
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+
+      console.error(`CORS error: Origin ${origin} not allowed.`);
+      return callback(new Error("Not allowed by CORS"));
+    },
+  })
+);
+
 console.log("CORS middleware registered.");
 
 // Serve static files from the client's dist folder
@@ -41,8 +60,8 @@ console.log("Registering API routes...");
 app.use(routes);
 
 // Catch-all route for serving index.html in SPAs
-app.get('*', (_req, res) => {
-  res.sendFile(path.join(clientDistPath, 'index.html'));
+app.get("*", (_req, res) => {
+  res.sendFile(path.join(clientDistPath, "index.html"));
 });
 
 // Sync database and start the server
