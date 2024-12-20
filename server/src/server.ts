@@ -26,7 +26,7 @@ app.use(cors());
 console.log("CORS middleware registered.");
 
 // Serve static files from the client's dist folder
-const clientDistPath = path.join(__dirname, "../client/dist");
+const clientDistPath = path.join(__dirname, "../../client/dist");
 app.use(express.static(clientDistPath));
 console.log(`Serving static files from: ${clientDistPath}`);
 
