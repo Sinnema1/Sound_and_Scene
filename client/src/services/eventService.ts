@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { Event } from '../interfaces/Event';
 
-const BASE_URL = 'http://localhost:3001/api/events';
+const BASE_URL = 'https://sound-and-scene-1.onrender.com';
 
 
 // Fetch events by zipcode from the server-side proxy.
